@@ -1,0 +1,31 @@
+version: "3"
+
+services:
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+
+  sub1:
+    image: nginx
+    restart: always
+    ports:
+      - "80"
+    volumes:
+      - ./sub1.dd4f.sh:/usr/share/nginx/html:ro
+    environment:
+      - VIRTUAL_HOST=sub1.dd4f.sh,www.sub1.dd4f.sh
+
+  sub2:
+    image: nginx
+    restart: always
+    ports:
+      - "80"
+    volumes:
+      - ./sub2.dd4f.sh:/usr/share/nginx/html:ro
+    environment:
+      - VIRTUAL_HOST=sub2.dd4f.sh,www.sub2.dd4f.sh
